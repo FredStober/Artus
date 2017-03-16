@@ -58,7 +58,7 @@ def merge_local(args):
 
 def merge_batch(args):
 
-	from gcSettings import Settings
+	from grid_control_settings import Settings
 	cfg = Settings()
 	cfg.workflow.task = 'UserTask'
 	cfg.workflow.backend = 'local'
@@ -107,10 +107,8 @@ def merge_batch(args):
 	cfg.storage.se_output_files = "merged.root"
 	cfg.storage.se_output_pattern = "@NICK@/@NICK@.root"
 	cfg.GLOBAL.workdir = os.path.join(args.project_dir[0] if(args.output_dir == None) else args.output_dir, "workdir_merge")
-	from grid_control.utils.activity import Activity
-	Activity.root = Activity('Running grid-control', name = 'root')
-	from gcTool import gc_create_workflow, gc_create_config
-	config = gc_create_config( configDict = Settings.getConfigDict())
+	from grid_control_api import gc_create_workflow, gc_create_config
+	config = gc_create_config(config_dict=Settings.get_config_dict())
 
 	workflow = gc_create_workflow(config)
 	#activate for large verbosity
